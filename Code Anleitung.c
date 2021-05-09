@@ -33,8 +33,10 @@ void Geschlecht(void) {
   printf("Sind Sie männlich(1), weiblich(2) oder divers(3)? \n");
   // Eingabe des/der Nutzer:in
   scanf("%d", &g);
+  // Antworten, je nachdem welchem Fall man angehört
   if (g==1) {
     printf("Sie sind ein Mann? Super! Dann entsprechen Sie dem einzigen Geschlecht auf dem unsere Studien an dem Medikament basieren! \n\n");
+    // Aufruf der zweiten Funktion
     Alter();
   }
   else if (g==2 || g==3) {
@@ -57,7 +59,7 @@ void Alter(void) {
   }
   else if(a>=18 && a<=60){
     printf("Perfekt! Auf diesen Daten basieren unsere Forschungstests!\n\n");
-    // Aufruf der zweiten Funktion
+    // Aufruf der dritten Funktion
     Gewicht();
   }
   else{
@@ -77,7 +79,7 @@ void Gewicht(void) {
   }
   else if(w>=63 && w<=85){
     printf("Super, Sie entsprechen unseren Standards!\n\n");
-    // Aufruf der dritten Funktion
+    // Aufruf der vierten Funktion
     Groesse();
   }
 }
@@ -94,7 +96,7 @@ void Groesse(void) {
   }
   else if(h>=175 && h<=185){
     printf("Super, Sie entsprechen unseren Standards!\n\n");
-    // Aufruf der vierten Funktion
+    // Aufruf der fuenften Funktion
     Koerper();
   }
 }
@@ -111,7 +113,7 @@ void Koerper(void) {
   }
   else if(k==2){
     printf("Super, weiter geht's!\n\n");
-    // Aufruf der fuenften Funktion
+    // Aufruf der sechsten Funktion
     Psyche();
   }
   else{
