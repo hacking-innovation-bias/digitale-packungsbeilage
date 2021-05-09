@@ -1,0 +1,209 @@
+// Einbinden der Standard-Bibliothek und der Bibliothek für den LCD-Bildschirm
+#include <Wire.h>
+#include "rgb_lcd.h"
+
+// Namen des LCD-Bildschirms verkürzen
+rgb_lcd lcd;
+
+// Anfangsfarbe des LCD-Bildschirms festlegen (gelb)
+const int colorR = 255;
+const int colorG = 90;
+const int colorB = 0;
+
+// Pins der Taster am Board festlegen
+int taster1=12;
+int taster2=8;
+
+// Deklarationsteil
+void setup() 
+{  
+  // LCD-Bildschirm einstellen
+  lcd.begin(16, 2);
+  lcd.setRGB(colorR, colorG, colorB); 
+
+  // Taster mit Pullup austatten, damit Schwingungen beim Taster drücken klarer sind
+  pinMode(taster1,INPUT_PULLUP);
+  pinMode(taster2,INPUT_PULLUP);
+
+  // Seiellen Monitor deklarieren, damit auf demm seriellen Bildschirm später Antworten und FRagen angezeigt werden können
+  Serial.begin(9600);
+
+  // Anzeige wie man die Taster drücken soll
+  Serial.println("");
+  Serial.println("1.Antwort - nichts machen, 2.Antwort - schwarzer Taster, 3.Antwort - blauer Taster");
+  Serial.println("");
+  // kurze Pause
+  delay(5000);
+
+  // Aufruf der ersten Funktion
+  Geschlecht();
+}
+
+// erste Funktion
+int Geschlecht()
+{
+  // Anzeige der Frage nach dem Geschlecht
+  Serial.println("Sind Sie männlich, weiblich oder divers?");
+  // kurze Pause
+  delay(10000);
+  // Eingabe des/ der Nutzer: in und Antworten, je nachdem welchem Fall man angehört
+  if (digitalRead(taster1) == HIGH && digitalRead(taster2) == HIGH)
+    {
+    Serial.println("Sie sind ein Mann? Super! Dann entsprechen Sie dem einzigen Geschlecht auf dem unsere Studien an dem Medikament basieren!");
+    // kurze Pause
+    delay(300);
+    // Aufruf der zweiten Funktion
+    Alter();
+    }
+    else if(digitalRead(taster1)==LOW || digitalRead(taster2) == LOW)
+    {
+    Serial.println("Leider war es uns nicht möglich alle anderen Geschlechter in unsere Studien mit aufzunehmen, da es einfach zeitaufwändig, sowie auch zu teuer gewesen wäre und insbesondere der Zyklus der Frau uns zu kompliziert ist, da Unterschiede in der Auswirkungen des Medikaments in den verschiedenen Stadien des Zyklus zu erwarten sind. Gerne nehmen Sie diese Pille trotzdem und hoffen, dass Sie mit der Nebenwirkungen der Überdosierung klarkommen!");
+    // kurze Pause
+    delay(100);
+    // rote Farbe auf dem LCD-Bildschirm
+    lcd.setRGB(255, 0, 0);
+    }
+}
+
+// zweite Funktion
+int Alter()
+{
+  // Anzeige der Frage nach dem Alter
+  Serial.println("");
+  Serial.println("Wie alt sind Sie? Zwischen 18 und 60, unter 18 oder über 60?");
+  // kurze Pause
+  delay(10000);
+  // Eingabe des/ der Nutzer: in und Antworten, je nachdem welchem Fall man angehört
+  if (digitalRead(taster1) == HIGH && digitalRead(taster2) == HIGH)
+    {
+    Serial.println("Perfekt! Auf diesen Daten basieren unsere Forschungstests!");
+    // kurze Pause
+    delay(100);
+    // Aufruf der dritten Funktion
+    Gewicht();
+    }
+    else if(digitalRead(taster1)==LOW || digitalRead(taster2) == LOW)
+    {
+      if(digitalRead(taster1)==LOW)
+      {
+        Serial.println("Tut uns leid, Kinder sind nicht Teil unserer Studien!");
+      }
+      else
+      {
+        Serial.println("Viel zu alt! Sie bräuchten wahrscheinlich eine individuelle Dosierung. Doch an alten Menschen haben wir nicht getestet. SOrry!");
+      }
+      Serial.println("Gerne nehmen Sie diese Pille trotzdem und hoffen, dass Sie mit der Nebenwirkungen der Überdosierung klarkommen!");
+      // kurze Pause
+      delay(100);
+      // rote Farbe auf dem LCD-Bildschirm
+      lcd.setRGB(255, 0, 0);
+    }
+}
+
+// dritte Funktion
+int Gewicht()
+{
+  // Anzeige der Frage nach dem Gewicht
+  Serial.println("");
+  Serial.println("Wie schwer sind Sie? Zwischen 63 und 85 kg, unter 63 kg oder über 85 kg?");
+  // kurze Pause
+  delay(10000);
+  // Eingabe des/ der Nutzer: in und Antworten, je nachdem welchem Fall man angehört
+  if (digitalRead(taster1) == HIGH && digitalRead(taster2) == HIGH)
+    {
+    Serial.println("Super, Sie entsprechen unseren Standards!");
+    // kurze Pause
+    delay(100);
+    // Aufruf der vierten Funktion
+    Groesse();
+    }
+    else if(digitalRead(taster1)==LOW || digitalRead(taster2) == LOW)
+    {
+    Serial.println("Leider können unsere Forschungsdaten nur angemessen etwas über das Standardgewicht des Mannes etwas aussagen. Das ist leider Ihr Problem. Gerne nehmen Sie diese Pille trotzdem und hoffen, dass Sie mit der Nebenwirkungen der Überdosierung klarkommen!");
+    // kurze Pause
+    delay(100);
+    // rote Farbe auf dem LCD-Bildschirm
+    lcd.setRGB(255, 0, 0);
+    }
+}
+
+// vierte Funktion
+int Groesse()
+{
+  // Anzeige der Frage nach der Groesse
+  Serial.println("");
+  Serial.println("Wie groß sind Sie? Zwischen 1,75 und 1,85 m, unter 1,75 m oder über 1,85 m?");
+  // kurze Pause
+  delay(10000);
+  // Eingabe des/ der Nutzer: in und Antworten, je nachdem welchem Fall man angehört
+  if (digitalRead(taster1) == HIGH && digitalRead(taster2) == HIGH)
+    {
+    Serial.println("Super, Sie entsprechen unseren Standards!");
+    // kurze Pause
+    delay(100);
+    // Aufruf der fuenften Funktion
+    Koerper();
+    }
+    else if(digitalRead(taster1)==LOW || digitalRead(taster2) == LOW)
+    {
+    Serial.println("Unsere Forschungsdaten sind nicht am Aussagekräftigsten für Männer unter oder über der Standardgröße. Da haben Sie leider Pech. Gerne nehmen Sie diese Pille trotzdem und hoffen, dass Sie mit der Nebenwirkungen der Überdosierung klarkommen!");
+    // kurze Pause
+    delay(100);
+    // rote Farbe auf dem LCD-Bildschirm
+    lcd.setRGB(255, 0, 0);
+    }
+}
+
+// fuenfte Funktion
+int Koerper()
+{
+  // Anzeige der Frage nach der körperlichen Gesundheit
+  Serial.println("");
+  Serial.println("Haben Sie irgendwelche physischen Einschränkungen? Nein oder Ja?");
+  // kurze Pause
+  delay(10000);
+  // Eingabe des/ der Nutzer: in und Antworten, je nachdem welchem Fall man angehört
+  if (digitalRead(taster1) == HIGH && digitalRead(taster2) == HIGH)
+    {
+    Serial.println("Super, weiter geht's!");
+    // kurze Pause
+    delay(100);
+    // Aufruf der sechsten Funktion
+    Psyche();
+    }
+    else if(digitalRead(taster1)==LOW || digitalRead(taster2) == LOW)
+    {
+    Serial.println("Keine Forschungsdaten vorliegend. Es ist uns einfach zu teuer und aufwendig unser Probandenspektrum divers zu gestalten. Gerne nehmen Sie diese Pille trotzdem und hoffen, dass Sie mit der Nebenwirkungen der Überdosierung klarkommen!");
+    // kurze Pause
+    delay(100);
+    // rote Farbe auf dem LCD-Bildschirm
+    lcd.setRGB(255, 0, 0);
+    }
+}
+
+// sechste Funktion
+int Psyche()
+{
+   // Anzeige der Frage nach dem mentalen Gesundheit
+  Serial.println("");
+  Serial.println("Haben Sie irgendwelche psychischen Einschränkungen? Nein oder Ja?");
+  // kurze Pause
+  delay(10000);
+  // Eingabe des/ der Nutzer: in und Antworten, je nachdem welchem Fall man angehört
+  if (digitalRead(taster1) == HIGH && digitalRead(taster2) == HIGH)
+    {
+    Serial.println("Sie entsprechen dem Standard eines typischen Mannes! Perfekt! Dann können Sie dieses Medikament ohne Probleme nehmen, denn wir haben in unseren Studien ausschließlich an Männern mit diesem Standard getestet.");
+    // gruene Farbe auf dem LCD-Bildschirm
+    lcd.setRGB(100, 100, 0);
+    // kurze Pause
+    delay(100);
+    }
+    else if(digitalRead(taster1)==LOW || digitalRead(taster2) == LOW)
+    {
+    Serial.println("Keine Forschungsdaten vorliegend. Es ist uns einfach zu teuer und aufwendig unser Probandenspektrum divers zu gestalten. Gerne nehmen Sie diese Pille trotzdem und hoffen, dass Sie mit der Nebenwirkungen der Überdosierung klarkommen!");
+    // kurze Pause
+    delay(100);
+    // rote Farbe auf dem LCD-Bildschirm
+    lcd.setRGB(255, 0, 0);
+    }
+}
